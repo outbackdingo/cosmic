@@ -1,59 +1,33 @@
-## 1. BUILD ARGS
-# These allow changing the produced image by passing different build args to adjust
-# the source from which your image is built.
-# Build args can be provided on the commandline when building locally with:
-#   podman build -f Containerfile --build-arg FEDORA_VERSION=40 -t local-image
+ARG SOURCE_IMAGE="${SOURCE_IMAGE:-base-main}"
+ARG SOURCE_ORG="${SOURCE_ORG:-ghcr.io/ublue-os}"
+ARG BASE_IMAGE="${SOURCE_ORG}/${SOURCE_IMAGE}"
+ARG FEDORA_MAJOR_VERSION="${FEDORA_MAJOR_VERSION:-40}"
 
-# SOURCE_IMAGE arg can be anything from ublue upstream which matches your desired version:
-# See list here: https://github.com/orgs/ublue-os/packages?repo_name=main
-# - "silverblue"
-# - "kinoite"
-# - "sericea"
-# - "onyx"
-# - "lazurite"
-# - "vauxite"
-# - "base"
-#
-#  "aurora", "bazzite", "bluefin" or "ucore" may also be used but have different suffixes.
-ARG SOURCE_IMAGE="silverblue"
+FROM ${BASE_IMAGE}:${FEDORA_MAJOR_VERSION}
+ARG FEDORA_MAJOR_VERSION="${FEDORA_MAJOR_VERSION:-40}"
 
-## SOURCE_SUFFIX arg should include a hyphen and the appropriate suffix name
-# These examples all work for silverblue/kinoite/sericea/onyx/lazurite/vauxite/base
-# - "-main"
-# - "-nvidia"
-# - "-asus"
-# - "-asus-nvidia"
-# - "-surface"
-# - "-surface-nvidia"
-#
-# aurora, bazzite and bluefin each have unique suffixes. Please check the specific image.
-# ucore has the following possible suffixes
-# - stable
-# - stable-nvidia
-# - stable-zfs
-# - stable-nvidia-zfs
-# - (and the above with testing rather than stable)
-ARG SOURCE_SUFFIX="-main"
-
-## SOURCE_TAG arg must be a version built for the specific image: eg, 39, 40, gts, latest
-ARG SOURCE_TAG="latest"
-
-
-### 2. SOURCE IMAGE
-## this is a standard Containerfile FROM using the build ARGs above to select the right upstream image
-FROM ghcr.io/ublue-os/${SOURCE_IMAGE}${SOURCE_SUFFIX}:${SOURCE_TAG}
-
-
-### 3. MODIFICATIONS
-## make modifications desired in your image and install packages by modifying the build.sh script
-## the following RUN directive does all the things required to run "build.sh" as recommended.
-
-COPY build.sh /tmp/build.sh
-
-RUN mkdir -p /var/lib/alternatives && \
-    /tmp/build.sh && \
-    ostree container commit
-## NOTES:
-# - /var/lib/alternatives is required to prevent failure with some RPM installs
-# - All RUN commands must end with ostree container commit
-#   see: https://coreos.github.io/rpm-ostree/container/#using-ostree-container-commit
+# Build in one step
+RUN if [[ "${FEDORA_MAJOR_VERSION}" == "rawhide" ]]; then \
+        curl -Lo /etc/yum.repos.d/_copr_ryanabx-cosmic.repo \
+            https://copr.fedorainfracloud.org/coprs/ryanabx/cosmic-epoch/repo/fedora-rawhide/ryanabx-cosmic-epoch-fedora-rawhide.repo \
+    ; else curl -Lo /etc/yum.repos.d/_copr_ryanabx-cosmic.repo \
+            https://copr.fedorainfracloud.org/coprs/ryanabx/cosmic-epoch/repo/fedora-$(rpm -E %fedora)/ryanabx-cosmic-epoch-fedora-$(rpm -E %fedora).repo \
+           && curl -Lo /etc/yum.repos.d/cloudflared-ascii.repo \
+            https://pkg.cloudflare.com/cloudflared-ascii.repo \
+    ; fi && \
+    rpm-ostree install \
+        cosmic-desktop \
+        power-profiles-daemon && \
+    rpm-ostree install \
+        gnome-keyring NetworkManager-tui NetworkManager-openvpn && \
+    rpm-ostree install \
+        fontawesome-fonts powerline vim-powerline tmux-powerline powerline-fonts zsh fish elvish lsd mc restic fastfetch telegram-desktop openvpn wireguard-tools kubernetes-client go rust nmap cloudflared \
+   bzip2 gcc gcc-c++ make ncurses-devel patch rsync tar unzip wget which diffutils python3 perl-base perl-Data-Dumper perl-File-Compare perl-File-Copy perl-FindBin perl-IPC-Cmd perl-JSON-PP perl-Thread-Queue perl-Time-Piece re2c libreoffice \
+   nodejs npm minicom && \
+   # libreoffice virt-viewer virt-manager virt-install nodejs npm minicom && \
+    systemctl disable gdm || true && \
+    systemctl disable sddm || true && \
+    systemctl enable cosmic-greeter && \
+    systemctl enable power-profiles-daemon && \
+    ostree container commit && \
+    mkdir -p /var/tmp && chmod -R 1777 /var/tmp
