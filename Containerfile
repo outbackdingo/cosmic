@@ -23,7 +23,7 @@ RUN if [[ "${FEDORA_MAJOR_VERSION}" == "rawhide" ]]; then \
     rpm-ostree install \
         fontawesome-fonts powerline vim-powerline tmux-powerline powerline-fonts zsh fish elvish lsd mc restic fastfetch telegram-desktop openvpn wireguard-tools kubernetes-client go rust nmap cloudflared \
    bzip2 gcc gcc-c++ make ncurses-devel patch rsync tar unzip wget which diffutils python3 perl-base perl-Data-Dumper perl-File-Compare perl-File-Copy perl-FindBin perl-IPC-Cmd perl-JSON-PP perl-Thread-Queue perl-Time-Piece re2c libreoffice \
-   nodejs npm minicom && \
+   nodejs npm minicom elvish nu && \
    # libreoffice virt-viewer virt-manager virt-install nodejs npm minicom && \
     systemctl disable gdm || true && \
     systemctl disable sddm || true && \
