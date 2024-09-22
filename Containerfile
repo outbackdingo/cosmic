@@ -22,7 +22,7 @@ RUN if [[ "${FEDORA_MAJOR_VERSION}" == "rawhide" ]]; then \
     rpm-ostree install \
          minicom patch npm minicom rsync tar unzip wget which diffutils python3 perl-base perl-Data-Dumper perl-File-Compare perl-File-Copy perl-FindBin perl-IPC-Cmd perl-JSON-PP perl-Thread-Queue && \
     rpm-ostree install \
-         perl-Time-Piece re2c libreoffice virt-viewer virt-manager virt-install nodejs minicom && \
+         perl-Time-Piece re2c libreoffice virt-viewer virt-manager virt-install && \
     systemctl disable gdm || true && \
     systemctl disable sddm || true && \
     systemctl enable cosmic-greeter && \
