@@ -21,7 +21,8 @@ RUN if [[ "${FEDORA_MAJOR_VERSION}" == "rawhide" ]]; then \
         fish elvish lsd mc restic fastfetch telegram-desktop openvpn wireguard-tools kubernetes-client go rust nmap cloudflared bzip2 gcc gcc-c++ make ncurses-devel && \
     rpm-ostree install \
          minicom patch npm minicom rsync tar unzip wget which diffutils python3 perl-base perl-Data-Dumper perl-File-Compare perl-File-Copy perl-FindBin perl-IPC-Cmd perl-JSON-PP perl-Thread-Queue && \
-    #    perl-Time-Piece re2c libreoffice nodejs elvish nu virt-viewer virt-manager virt-install nodejs npm minicom && \
+    rpm-ostree install \
+         perl-Time-Piece re2c libreoffice virt-viewer virt-manager virt-install nodejs minicom && \
     systemctl disable gdm || true && \
     systemctl disable sddm || true && \
     systemctl enable cosmic-greeter && \
