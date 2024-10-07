@@ -22,7 +22,7 @@ RUN if [[ "${FEDORA_MAJOR_VERSION}" == "rawhide" ]]; then \
     rpm-ostree install \
          minicom patch npm minicom rsync tar unzip wget which diffutils python3 perl-base perl-Data-Dumper perl-File-Compare perl-File-Copy perl-FindBin perl-IPC-Cmd perl-JSON-PP perl-Thread-Queue && \
     rpm-ostree install \
-        fontawesome-fonts powerline vim-powerline tmux-powerline powerline-fonts zsh mc restic fastfetch telegram-desktop openvpn wireguard-tools kubernetes-client go rust nmap && \
+        fontawesome-fonts powerline vim-powerline tmux-powerline powerline-fonts zsh mc restic fastfetch openvpn wireguard-tools kubernetes-client go rust nmap && \
     rpm-ostree install \
         bzip2 gcc gcc-c++ make ncurses-devel patch rsync tar unzip wget which diffutils python3 perl-base re2c libreoffice nodejs npm minicom && \
    # libreoffice virt-viewer virt-manager virt-install nodejs npm minicom && \
