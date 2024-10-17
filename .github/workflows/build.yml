@@ -1,11 +1,6 @@
 name: build-ublue
 
-
-
 on:
-  push:
-    # only trigger on branches, not on tags
-    branches: '**'
   pull_request:
   merge_group:
   schedule:
@@ -22,7 +17,7 @@ concurrency:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       packages: write
@@ -37,7 +32,11 @@ jobs:
         flavor:
           - base
           - base-nvidia
-          
+          - silverblue
+          - silverblue-nvidia
+          - kinoite
+          - kinoite-nvidia
+
     steps:
       # Checkout push-to-registry action GitHub repository
       - name: Maximize build space
@@ -127,7 +126,7 @@ jobs:
       # Reprocess raw-img using rechunker which will delete it
       - name: Run Rechunker
         id: rechunk
-        uses: hhd-dev/rechunk@v0.8.6
+        uses: hhd-dev/rechunk@v0.8.1
         with:
           rechunk: 'ghcr.io/hhd-dev/rechunk:v0.8.1'
           ref: 'raw-img'
@@ -177,7 +176,7 @@ jobs:
             --disable-content-trust
 
       # Sign container
-      - uses: sigstore/cosign-installer@v3.7.0
+      - uses: sigstore/cosign-installer@v3.5.0
         if: github.event_name != 'pull_request'
 
       - name: Sign container image
