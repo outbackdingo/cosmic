@@ -12,8 +12,6 @@ RUN if [[ "${FEDORA_MAJOR_VERSION}" == "rawhide" ]]; then \
             https://copr.fedorainfracloud.org/coprs/ryanabx/cosmic-epoch/repo/fedora-rawhide/ryanabx-cosmic-epoch-fedora-rawhide.repo \
     ; else curl -Lo /etc/yum.repos.d/_copr_ryanabx-cosmic.repo \
             https://copr.fedorainfracloud.org/coprs/ryanabx/cosmic-epoch/repo/fedora-$(rpm -E %fedora)/ryanabx-cosmic-epoch-fedora-$(rpm -E %fedora).repo \
-           && curl -Lo /etc/yum.repos.d/cloudflared-ascii.repo \
-            https://pkg.cloudflare.com/cloudflared-ascii.repo \
     ; fi && \
     rpm-ostree install \
         cosmic-desktop \
