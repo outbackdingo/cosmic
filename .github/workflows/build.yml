@@ -35,7 +35,6 @@ jobs:
         version:
           - 40
         flavor:
-          - base
           - base-nvidia
           
     steps:
