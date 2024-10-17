@@ -5,6 +5,9 @@ on:
   merge_group:
   schedule:
     - cron: "0 15 * * *" # 3pm UTC everyday (timed against official fedora container pushes)
+  push:
+    paths-ignore: # don't rebuild if only documentation has changed
+    - "**.md"   
   workflow_dispatch:
 
 env:
