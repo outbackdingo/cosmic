@@ -18,14 +18,11 @@ RUN if [[ "${FEDORA_MAJOR_VERSION}" == "rawhide" ]]; then \
     rpm-ostree install \
         cosmic-desktop \
         power-profiles-daemon gnome-keyring NetworkManager-tui NetworkManager-openvpn fontawesome-fonts powerline vim-powerline tmux-powerline powerline-fonts zsh \
-        fish elvish lsd mc restic fastfetch openvpn wireguard-tools kubernetes-client go rust nmap cloudflared bzip2 gcc gcc-c++ make ncurses-devel && \
+        nmap bzip2 && \
     rpm-ostree install \
-         minicom patch npm minicom rsync tar unzip wget which diffutils python3 && \
+         minicom patch npm minicom rsync tar unzip wget which diffutils python3 mc restic fastfetch openvpn wireguard-tools kubernetes-client go rust nmap && \
     rpm-ostree install \
-        fontawesome-fonts powerline vim-powerline tmux-powerline powerline-fonts zsh mc restic fastfetch openvpn wireguard-tools kubernetes-client go rust nmap && \
-    rpm-ostree install \
-        bzip2 gcc gcc-c++ make ncurses-devel patch rsync tar unzip wget which diffutils python3 perl-base re2c libreoffice nodejs npm minicom && \
-   # libreoffice virt-viewer virt-manager virt-install nodejs npm minicom && \
+        python3 perl-base re2c nodejs && \
     systemctl disable gdm || true && \
     systemctl disable sddm || true && \
     systemctl enable cosmic-greeter && \
