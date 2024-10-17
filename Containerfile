@@ -14,16 +14,15 @@ RUN if [[ "${FEDORA_MAJOR_VERSION}" == "rawhide" ]]; then \
             https://copr.fedorainfracloud.org/coprs/ryanabx/cosmic-epoch/repo/fedora-$(rpm -E %fedora)/ryanabx-cosmic-epoch-fedora-$(rpm -E %fedora).repo \
     ; fi && \
     rpm-ostree install \
-        cosmic-desktop zsh && \
-#        power-profiles-daemon gnome-keyring NetworkManager-tui NetworkManager-openvpn fontawesome-fonts powerline vim-powerline tmux-powerline powerline-fonts zsh \
-#        nmap bzip2 && \
-   # rpm-ostree install \
-   #      minicom patch npm minicom rsync tar unzip wget which diffutils python3 mc restic fastfetch openvpn wireguard-tools kubernetes-client go rust nmap && \
-   # rpm-ostree install \
-   #     python3 perl-base re2c nodejs && \
+        cosmic-desktop \
+        zsh mc \
+        power-profiles-daemon && \
+    rpm-ostree install \
+        gnome-keyring NetworkManager-tui \
+        NetworkManager-openvpn && \
     systemctl disable gdm || true && \
     systemctl disable sddm || true && \
     systemctl enable cosmic-greeter && \
     systemctl enable power-profiles-daemon && \
     ostree container commit && \
-    mkdir -p /var/tmp && chmod -R 1777 /var/tmp
+    mkdir -p /var/tmp && chmod -R 1777 /var/tm
