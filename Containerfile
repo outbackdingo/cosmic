@@ -18,6 +18,7 @@ RUN if [[ "${FEDORA_MAJOR_VERSION}" == "rawhide" ]]; then \
         power-profiles-daemon && \
     rpm-ostree install \
         gnome-keyring NetworkManager-tui \
+        zsh mc \
         NetworkManager-openvpn && \
     systemctl disable gdm || true && \
     systemctl disable sddm || true && \
