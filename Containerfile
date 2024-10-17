@@ -25,4 +25,4 @@ RUN if [[ "${FEDORA_MAJOR_VERSION}" == "rawhide" ]]; then \
     systemctl enable cosmic-greeter && \
     systemctl enable power-profiles-daemon && \
     ostree container commit && \
-    mkdir -p /var/tmp && chmod -R 1777 /var/tm
+    mkdir -p /var/tmp && chmod -R 1777 /var/tmp
