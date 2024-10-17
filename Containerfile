@@ -15,7 +15,6 @@ RUN if [[ "${FEDORA_MAJOR_VERSION}" == "rawhide" ]]; then \
     ; fi && \
     rpm-ostree install \
         cosmic-desktop \
-        zsh mc \
         power-profiles-daemon && \
     rpm-ostree install \
         gnome-keyring NetworkManager-tui \
